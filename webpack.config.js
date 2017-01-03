@@ -20,8 +20,13 @@ var config = {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      'jQuery': 'jquery',
+      '$': 'jquery',
+    })
   ],
+
   externals: { // these will help enzyme work properly
     'cheerio': 'window', // importing the cheerio library
     'react/lib/ExecutionEnvironment': true,
