@@ -5,8 +5,6 @@ import { render } from 'react-dom';
 // import jQuery from 'jquery';
 // import * as $ from 'jquery';
 
-import jqConsole from '../../../lib/jqconsole';
-
 class Console extends Component {
 	constructor(props) {
 		super(props);
@@ -20,20 +18,8 @@ class Console extends Component {
 	}
 
 	setup() {
-	  // debugger;
-		$(function () {
-		  var jqconsole = $('#console').jqconsole('Hi\n', '>>>');
-		  var startPrompt = function () {
-		    // Start the prompt with history enabled.
-		    jqconsole.Prompt(true, function (input) {
-	      // Output input with the class jqconsole-output.
-	      jqconsole.Write(input + '\n', 'jqconsole-output');
-	      // Restart the prompt.
-	      // startPrompt();
-		    });
-		  };
-		  startPrompt();
-		});
+	  
+	  
 	}
 
 	render() {
