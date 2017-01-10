@@ -1,7 +1,7 @@
-import React, { Components, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { render } from 'react-dom';
 
-class History extends Components {
+class History extends Component {
 	constructor(props) {
 		super(props);
 		
@@ -9,9 +9,13 @@ class History extends Components {
 
 	}
 
-	
-	render() {
 
+	render() {
+		return(
+			<div>
+				Inside History
+			</div>
+		);
 	}
 }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import uuidV1 from 'uuid/v1';
 
 import Console from './Console';
 import linkedList from '../linkedList'; // imports a new linkedList data structure
@@ -11,7 +12,7 @@ class App extends Component {
 
 		this.state = {
 			current: linkedList, // should create a new linkedList every new line
-			currentText: '', // this is the text displayed on the current line
+			currentText: null, // this is the text displayed on the current line
 			consoleIsActive: false, // this checks to see if the console is active
 		};
 	}
@@ -27,16 +28,24 @@ class App extends Component {
 			// current is set to new linkedList
 			this.setState({
 				current: textLinkedList,
-				currentText: firstSpace,
+				currentText: {
+					id: uuidV1(),
+					text: firstSpace,
+				}
 			});
 		}
 	}
+
+
 
 	render() {
 		return (
 			<div>
 				<div>hi what's up</div>
-				<Console />
+				<Console
+					current = {this.state.current} // not sure about if we need this
+					currentText = {this.state.currentText}
+				/>
 			</div>
 		)
 	}

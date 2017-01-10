@@ -1,7 +1,7 @@
-import React, { Components, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { render } from 'react-dom';
 
-class CurrentLine extends Components {
+class CurrentLine extends Component {
 	constructor(props) {
 		super(props);
 		
@@ -11,7 +11,11 @@ class CurrentLine extends Components {
 
 	
 	render() {
-
+		return (
+			<div>
+				Inside Current Line
+			</div>
+		)
 	}
 }
 

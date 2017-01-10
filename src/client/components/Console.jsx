@@ -5,20 +5,12 @@ import { render } from 'react-dom';
 // import jQuery from 'jquery';
 // import * as $ from 'jquery';
 
+import History from './History';
+import CurrentLine from './CurrentLine';
+
 class Console extends Component {
 	constructor(props) {
 		super(props);
-
-		this.setup = this.setup.bind(this);
-	}
-
-	componentDidMount(){
-		this.setup();
-		debugger;
-	}
-
-	setup() {
-	  
 
 	}
 
@@ -29,9 +21,11 @@ class Console extends Component {
 
 	render() {
 		return (
-			<div id='#console'>
-				<History />
-				<CurrentLine />
+			<div className='console-elem'>
+				<div id='console'>
+					<History />
+					<CurrentLine />
+				</div>
 			</div>
 		)
 	}
