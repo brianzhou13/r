@@ -13,21 +13,25 @@ class Console extends Component {
 	}
 
 	componentDidMount(){
-    // $(div).jqconsole(welcomeString, promptLabel, continueLabel, disableAutoFocus);
 		this.setup();
+		debugger;
 	}
 
 	setup() {
 	  
-	  
+
 	}
+
+	// Console
+		// History
+		// Current
+
 
 	render() {
 		return (
-			<div>
-				<div id="console">
-
-				</div>
+			<div id='#console'>
+				<History />
+				<CurrentLine />
 			</div>
 		)
 	}
