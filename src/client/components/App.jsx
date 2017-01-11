@@ -19,6 +19,9 @@ class App extends Component {
 
 	// used for initial setup
 	componentDidMount() {
+		document.addEventListener("keypress", this._handleKeyPress, false);
+
+
 		if(!this.state.current.getLength) {
 			const firstSpace = ' ';
 			// states that it's true
@@ -36,15 +39,36 @@ class App extends Component {
 		}
 	}
 
+	// this will set the console to be active or not
+	setConsoleIsActive(e) {
+		if(e._targetInst._currentElement.props.id === 'console') {
+			console.log('entered');
+			this.setState({
+				consoleIsActive: true
+			});
+		} else {
+			this.setState({
+				consoleIsActive: false
+			});
+		}
+	}
+
+	_handleKeyPress(e) {
+		console.log('entered');
+
+	}
+
 
 
 	render() {
 		return (
-			<div>
-				<div>hi what's up</div>
+			<div 
+				className='background' 
+				onClick = { this.setConsoleIsActive.bind(this) }>
 				<Console
-					current = {this.state.current} // not sure about if we need this
-					currentText = {this.state.currentText}
+					current = { this.state.current } // not sure about if we need this
+					currentText = { this.state.currentText }
+					consoleIsActive = { this.state.consoleIsActive }
 				/>
 			</div>
 		)
