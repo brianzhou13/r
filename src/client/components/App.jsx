@@ -12,16 +12,23 @@ class App extends Component {
 
 		this.state = {
 			current: linkedList, // should create a new linkedList every new line
-			currentText: null, // this is the text displayed on the current line
+			currentText: '', // this is the text displayed on the current line
 			consoleIsActive: false, // this checks to see if the console is active
 		};
+
+		// set bindings for in-function calls
+		this._updateLinkedListText = this._updateLinkedListText.bind(this);
+		this._handleKeyPress = this._handleKeyPress.bind(this);
+		this._setConsoleIsActive = this._setConsoleIsActive.bind(this);
+	}
+
+	componentWillMount() {
+		document.addEventListener("keypress", this._handleKeyPress, false);
+		// link: http://stackoverflow.com/questions/29069639/listen-to-keypress-for-document-in-reactjs
 	}
 
 	// used for initial setup
 	componentDidMount() {
-		document.addEventListener("keypress", this._handleKeyPress, false);
-
-
 		if(!this.state.current.getLength) {
 			const firstSpace = ' ';
 			// states that it's true
@@ -40,7 +47,7 @@ class App extends Component {
 	}
 
 	// this will set the console to be active or not
-	setConsoleIsActive(e) {
+	_setConsoleIsActive(e) {
 		if(e._targetInst._currentElement.props.id === 'console') {
 			console.log('entered');
 			this.setState({
@@ -53,10 +60,28 @@ class App extends Component {
 		}
 	}
 
+	_updateLinkedListText(value) {
+		console.log('value is: ', value);
+		let updatedLinkedList = this.state.current.addNode(value); // not insert
+
+		console.log('updating text to be: ', updatedLinkedList.returnAll());
+
+		let updatedCurrentText = {
+			id: uuidV1(),
+			text: updatedLinkedList.returnAll(),
+		};
+
+		this.setState({
+			current: updatedLinkedList,
+			currentText: updatedCurrentText
+		});
+	}
+
 	_handleKeyPress(e) {
 		console.log('entered');
-
+		this._updateLinkedListText(e.key);
 	}
+
 
 
 
@@ -64,9 +89,9 @@ class App extends Component {
 		return (
 			<div 
 				className='background' 
-				onClick = { this.setConsoleIsActive.bind(this) }>
+				onClick = { this._setConsoleIsActive }>
 				<Console
-					current = { this.state.current } // not sure about if we need this
+					// current = { this.state.current } // not sure about if we need this
 					currentText = { this.state.currentText }
 					consoleIsActive = { this.state.consoleIsActive }
 				/>

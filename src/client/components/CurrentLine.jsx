@@ -9,11 +9,15 @@ class CurrentLine extends Component {
 
 	}
 
+	componentWillMount() {
+		// console.log('currentText is: ', this.props.currentText);
+	}
+
 	
 	render() {
 		return (
 			<div>
-				Inside Current Line
+				<span id='current-text'>{this.props.currentText.text}</span>
 			</div>
 		)
 	}

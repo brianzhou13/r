@@ -22,9 +22,13 @@ class Console extends Component {
 	render() {
 		return (
 			<div className='console-elem'>
-				<div id='console'>
+				<div id='console' /*className='gradient'*/>
 					<History />
-					<CurrentLine />
+					<CurrentLine 
+						// current = { this.props.current } // do we need this ?
+						currentText = { this.props.currentText } 
+						consoleIsActive = { this.props.consoleIsActive } // do we need this ?
+					/>
 				</div>
 			</div>
 		)
