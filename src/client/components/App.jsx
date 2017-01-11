@@ -11,11 +11,10 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			// current: linkedList, // should create a new linkedList every new line
-			current: this._workWithLinkedList(),
+			current: new linkedList(),
 			currentText: '', // this is the text displayed on the current line
 			consoleIsActive: false, // this checks to see if the console is active
-			currentKey: '',
+			currentKey: '', // the KEY per each letter
 		};
 
 		// set bindings for in-function calls
@@ -25,8 +24,10 @@ class App extends Component {
 		this._setConsoleIsActive = this._setConsoleIsActive.bind(this);
 		this._deleteCurrentLinkedList = this._deleteCurrentLinkedList.bind(this);
 		this._generateUniqueKey = this._generateUniqueKey.bind(this);
+		this._makeCopy = this._makeCopy.bind(this);
+		this._updateState = this._updateState.bind(this);
+		this._updateCurrentText = this._updateCurrentText.bind(this);
 
-		this._workWithLinkedList = this._workWithLinkedList.bind(this);
 	}
 
 	componentWillMount() {
@@ -36,22 +37,58 @@ class App extends Component {
 		// link: http://stackoverflow.com/questions/29069639/listen-to-keypress-for-document-in-reactjs
 	}
 
+	// first create a new copy of linkedList with its prototypes
+	// then copy over all enumerable properties with assign
+		// if we simply only used .assign, we wouldn't be able to get the prototypes
+		// if we simply only used .create, we wouldn't be able to get the individual property values
+	
+	_makeCopy(item) {
+		// return Object.assign(Object.create(linkedList.__proto__), item);
+		let protoCopy = Object.create(item.__proto__);
+		let propertyCopy = Object.assign(protoCopy, item);
+		return propertyCopy;
+	}
+
+	_generateUniqueKey() {
+		return uuidV1();
+	}
+
+	_handleKeyPress(e) {
+		console.log('entered');
+		this._updateLinkedListText(e.key);
+	}
+
+	_handleKeyDown(e) {
+		if (e.keyCode === 8) {
+    	this._deleteCurrentLinkedList();
+    }
+	}
+
+	_updateCurrentText(text) {
+		return {
+			id: 'line-' + this._generateUniqueKey(),
+			text: text,
+		};
+	}
+
+	_updateState(current, currentText, currentKey) {
+		this.setState({
+			current: current,
+			currentText: currentText,
+			currentKey: currentKey,
+		});
+	}
+
+
 	// used for initial setup
 	componentDidMount() {
-		if(!this.state.current.getLength) {
+		if(!this.state.current.getLength()) {
 			const firstSpace = ' ';
-			// states that it's true
-			let textLinkedList = new linkedList();
-			textLinkedList.addNode(firstSpace); // add a space character for now
+			let copyOfCurrent = this._makeCopy(this.state.current);
+			let newlyAddedNode = copyOfCurrent.addNode(firstSpace, this._generateUniqueKey()); // add a space character for now
 
-			// current is set to new linkedList
-			this.setState({
-				current: textLinkedList,
-				currentText: {
-					// id: uuidV1(), // don't need this here
-					text: firstSpace,
-				}
-			});
+			debugger;
+			this._updateState(copyOfCurrent, this._updateCurrentText(firstSpace), newlyAddedNode.value.id);
 		}
 	}
 
@@ -69,77 +106,45 @@ class App extends Component {
 		}
 	}
 
-	_generateUniqueKey() {
-		return uuidV1();
-	}
-
-	_workWithLinkedList() {
-		const firstSpace = ' ';
-		let newLinkedList = new linkedList();
-		newLinkedList.addNode(firstSpace);
-
-		return function() {
-			return newLinkedList;
-		};
-	}
 
 	_updateLinkedListText(value) {
-			console.log('value: ', value);
-			let generatedKey = this._generateUniqueKey();
-			let linkedList = this._workWithLinkedList();
-			// debugger;
-			let updatedLinkedListAdd = linkedList().addNode(value, generatedKey); // not insert
-			let updatedCurrentText = {
-				id: uuidV1(),
-				text: updatedLinkedListAdd.returnAll(),
-			};
+		console.log('value: ', value);
 
-			this.setState({
-				current: updatedLinkedListAdd,
-				currentText: updatedCurrentText,
-				currentKey: generatedKey,
-			});
-		}
+		// not sure. simply treating classes as objects, and duplicating an instance through .assign
+		let copyOfCurrent = this._makeCopy(this.state.current);
 
+		// add key pressed into end of our linkedList
+		let newlyAddedNode = copyOfCurrent.addNode(value, this._generateUniqueKey());
 
-	// _updateLinkedListText(value) {
-	// 	console.log('value: ', value);
-	// 	let generatedKey = this._generateUniqueKey();
-	// 	let updatedLinkedListAdd = this.state.current.addNode(value, generatedKey); // not insert
-	// 	let updatedCurrentText = {
-	// 		id: uuidV1(),
-	// 		text: updatedLinkedListAdd.returnAll(),
-	// 	};
+		// get all the text back to add to state
+		let text = copyOfCurrent.returnAll();
 
-	// 	this.setState({
-	// 		current: updatedLinkedListAdd,
-	// 		currentText: updatedCurrentText,
-	// 		currentKey: generatedKey,
-	// 	});
-	// }
+		// update the state
+		this._updateState(copyOfCurrent, this._updateCurrentText(text), newlyAddedNode.value.id);
 
-	_handleKeyPress(e) {
-		console.log('entered');
-		this._updateLinkedListText(e.key);
-	}
-
-	_handleKeyDown(e) {
-		if (e.keyCode === 8) {
-    	this._deleteCurrentLinkedList();
-    }
 	}
 
 	_deleteCurrentLinkedList() {
 		// this will delete the current key
-		let removedNodeKey = this.state.current.removeNode(this.state.currentKey);
-		let newList = updatedLinkedListDeletion.returnAll();
+		let copyOfCurrent = this._makeCopy(this.state.current);
+		// debugger;
+		let newNextNode = copyOfCurrent.removeNode(this.state.currentKey);
 
-		this.setState({
-			current: updatedLinkedListDeletion,
-			currentText: updatedLinkedListDeletion.returnAll(),
-			currentKey: removedNodeKey,// should be the one immediately afterwards...
-		});
+		let text = copyOfCurrent.returnAll();
+
+		this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNode.value.id);
+
+
+		// debugger;
+
+		// this.setState({
+		// 	current: data,
+		// 	currentText: updatedCurrentText,
+		// 	currentKey: generatedKey,// should be the one immediately afterwards...
+		// });
 	}
+
+	// can't delete twice...
 
 
 

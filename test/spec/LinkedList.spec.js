@@ -105,6 +105,28 @@ describe('Tests regarding our linkedList datastructure', function() {
 			done();
 		});
 
+		it('should be able to set its previous value correct when removing ._tail value', function(done) {
+			let testedNode = createNewLinkedList();
+
+			// remove the last value
+			testedNode.addNode('d', 1);
+			testedNode.addNode('e', 2);
+			testedNode.addNode('f', 3);
+			testedNode.removeNode(3);
+
+			// test current
+			expect(testedNode._tail.value.id).to.equal(2);
+
+			// test previous
+			expect(testedNode._tail.previous.value.id).to.equal(1);
+			// test next
+			expect(testedNode._tail.next).to.equal(null);
+
+
+			testedNode = null;
+			done();
+		});
+
 		it('should return a newLinkedList after removal', function(done) {
 			let testedNode = createNewLinkedList();
 

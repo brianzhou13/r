@@ -42,7 +42,9 @@ class linkedList {
 			this._tail = node;
 		}
 		this.addLength();
-		return this;
+
+		// you get the node you've just added back
+		return this._tail;
 	}
 
 	insertNode(value) {
@@ -65,21 +67,35 @@ class linkedList {
 			}
 			currentNode.node = currentNode.node.next;
 		}
+
+		// decrement
+		this.subtractLength();
+
 		if(this._start.value.id === id) {
 			// removing the first Node
 			this._start.next.previous = null;
 			this._start = this._start.next;
+
+			// return the new head
+			return this._start;
+
+
 		} else if (this._tail.value.id === id) {
 			// removing the last value
 			this._tail.previous.next = null;
 			this._tail = this._tail.previous;
+
+			// return the tail
+			return this._tail;
+			
 		} else {
 			// currentNode is correct now
 			currentNode.node.previous.next = currentNode.node.next;
 			currentNode.node.next = currentNode.node.previous;
+
+			// return the next node
+			return currentNode.node.next;
 		}
-		this.subtractLength();
-		return currentNode.node.next; // return the next node
 	}
 
 	returnAll() {
@@ -105,6 +121,5 @@ class linkedList {
 	}
 }
 
-// module.exports = linkedList;
-export default new linkedList();
+module.exports = linkedList;
 

@@ -13,6 +13,12 @@ class CurrentLine extends Component {
 		// console.log('currentText is: ', this.props.currentText);
 	}
 
+	componentWillReceiveProps() {
+		console.log('deletion?');
+		// debugger;
+	
+	}
+
 	
 	render() {
 		return (
