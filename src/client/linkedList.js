@@ -1,6 +1,12 @@
+import uuidV1 from 'uuid/v1';
+
 class Node {
-	constructor(nodeValue) {
-		this.value = nodeValue;
+	constructor(nodeValue, testingId) {
+		// testingId will only be used for testing purposes
+		this.value = {
+			id: testingId || uuidV1(),
+			text: nodeValue,
+		};
 		this.next = null;
 		this.previous = null; // doubly linked-list to help with insertion
 	}
@@ -10,7 +16,6 @@ class linkedList {
 	constructor() {
 		this._start = null;
 		this._tail = null;
-
 		this._length = 0; //starts at 0
 	}
 
@@ -22,46 +27,68 @@ class linkedList {
 		this._length++;
 	}
 
-	// empty linkedList, and we are adding our first element
-	addNode(value) {
-		let node = new Node(value);
+	subtractLength() {
+		this._length--;
+	}
+
+	addNode(value, testingId) {
+		let node = new Node(value, testingId);
 		if(!this._start) {
-			
 			// set both start and tail to the new node
 			this._start = node;
 			this._tail = node;
-
 		} else {
-			// set the new node's previous property to the old node
 			node.previous = this._tail;
-
-			// set the last node's next property to the new node
 			this._tail.next = node;
-
-			// move the end to the new node
 			this._tail = node;
 		}
-
-		// increase length
 		this.addLength();
-		return;
+		return this;
 	}
 
-	insertNode() {
+	insertNode(value) {
 		// this inserts an item into a specific index
 
+		// after insert, you'd return the List
+		return this;
 	}
 
 
-	removeNode() {
+	removeNode(id) {
 		// this will remove a node from a spot
-	
+			// find the id
+
+		let currentNode = {
+			node: this._start,
+			counter: 0,
+		}
+		while(currentNode.node.value.id !== id) {
+			if(this._length < currentNode.counter) {
+				return 'id was not found';
+				// throw; // we can throw error as of now -- clean up for later
+			}
+			currentNode.node = currentNode.node.next;
+		}
+		if(this._start.value.id === id) {
+			// removing the first Node
+			this._start.next.previous = null;
+			this._start = this._start.next;
+		} else if (this._tail.value.id === id) {
+			// removing the last value
+			this._tail.previous.next = null;
+			this._tail = this._tail.previous;
+		} else {
+			// currentNode is correct now
+			currentNode.node.previous.next = currentNode.node.next;
+			currentNode.node.next = currentNode.node.previous;
+		}
+		this.subtractLength();
+		return this;
 	}
 
 	returnAll() {
 		// this will recurse through and return all the values
 		return this.returnAllFn(this._start);
-
 	}
 
 	returnAllFn(node, allNodeValues = '') {
@@ -70,7 +97,7 @@ class linkedList {
 		let localAllNodeValues = allNodeValues;
 
 		// concat the current node's value with the 
-		localAllNodeValues = localAllNodeValues.concat(node.value);
+		localAllNodeValues = localAllNodeValues.concat(node.value.text);
 
 		if(node.next) {
 			return this.returnAllFn(node.next, localAllNodeValues); // recurse to next property
@@ -79,17 +106,9 @@ class linkedList {
 			console.log('finishing recursion: ', localAllNodeValues);
 			return localAllNodeValues;
 		}
-
 	}
-
 }
 
-module.exports = new linkedList();
+module.exports = linkedList;
 
-let test_link = new linkedList();
-test_link.addNode('a');
-test_link.addNode('b');
-test_link.addNode('c');
-let all = test_link.returnAll();
-console.log(all);
 
