@@ -1,10 +1,9 @@
 import uuidV1 from 'uuid/v1';
 
 class Node {
-	constructor(nodeValue, testingId) {
-		// testingId will only be used for testing purposes
+	constructor(nodeValue, key) {
 		this.value = {
-			id: testingId || uuidV1(),
+			id: key,
 			text: nodeValue,
 		};
 		this.next = null;
@@ -31,8 +30,8 @@ class linkedList {
 		this._length--;
 	}
 
-	addNode(value, testingId) {
-		let node = new Node(value, testingId);
+	addNode(value, key) {
+		let node = new Node(value, key);
 		if(!this._start) {
 			// set both start and tail to the new node
 			this._start = node;
@@ -55,13 +54,10 @@ class linkedList {
 
 
 	removeNode(id) {
-		// this will remove a node from a spot
-			// find the id
-
 		let currentNode = {
 			node: this._start,
 			counter: 0,
-		}
+		};
 		while(currentNode.node.value.id !== id) {
 			if(this._length < currentNode.counter) {
 				return 'id was not found';
@@ -83,7 +79,7 @@ class linkedList {
 			currentNode.node.next = currentNode.node.previous;
 		}
 		this.subtractLength();
-		return this;
+		return currentNode.node.next; // return the next node
 	}
 
 	returnAll() {
@@ -109,6 +105,6 @@ class linkedList {
 	}
 }
 
-module.exports = linkedList;
-
+// module.exports = linkedList;
+export default new linkedList();
 
