@@ -28,6 +28,9 @@ class Console extends Component {
 						// current = { this.props.current } // do we need this ?
 						currentText = { this.props.currentText } 
 						consoleIsActive = { this.props.consoleIsActive } // do we need this ?
+						left = { this.props.left }
+						right = { this.props.right }
+						focus = { this.props.focus }
 					/>
 				</div>
 			</div>

@@ -87,7 +87,7 @@ class App extends Component {
 			let copyOfCurrent = this._makeCopy(this.state.current);
 			let newlyAddedNode = copyOfCurrent.addNode(firstSpace, this._generateUniqueKey()); // add a space character for now
 
-			debugger;
+			// debugger;
 			this._updateState(copyOfCurrent, this._updateCurrentText(firstSpace), newlyAddedNode.value.id);
 		}
 	}
@@ -116,12 +116,22 @@ class App extends Component {
 		// add key pressed into end of our linkedList
 		let newlyAddedNode = copyOfCurrent.addNode(value, this._generateUniqueKey());
 
+		// run the function
+		copyOfCurrent.returnAllRightLeft(newlyAddedNode.value.id);
+		// set state for left/ right/ center
+		this.setState({
+			left: copyOfCurrent._left,
+			right: copyOfCurrent._right,
+			focus: copyOfCurrent._focus,
+		});
+
+		// then sest the 
+
 		// get all the text back to add to state
-		let text = copyOfCurrent.returnAll();
+		let text = copyOfCurrent.returnAll(); // optimization could happen here... since 
 
 		// update the state
 		this._updateState(copyOfCurrent, this._updateCurrentText(text), newlyAddedNode.value.id);
-
 	}
 
 	_deleteCurrentLinkedList() {
@@ -130,18 +140,19 @@ class App extends Component {
 		// debugger;
 		let newNextNode = copyOfCurrent.removeNode(this.state.currentKey);
 
+		// run the function
+		copyOfCurrent.returnAllRightLeft(newNextNode.value.id);
+		// set state for left/ right/ center
+		this.setState({
+			left: copyOfCurrent._left,
+			right: copyOfCurrent._right,
+			focus: copyOfCurrent._focus,
+		});
+
+
 		let text = copyOfCurrent.returnAll();
 
 		this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNode.value.id);
-
-
-		// debugger;
-
-		// this.setState({
-		// 	current: data,
-		// 	currentText: updatedCurrentText,
-		// 	currentKey: generatedKey,// should be the one immediately afterwards...
-		// });
 	}
 
 	// can't delete twice...
@@ -161,6 +172,9 @@ class App extends Component {
 					// current = { this.state.current } // not sure about if we need this
 					currentText = { this.state.currentText }
 					consoleIsActive = { this.state.consoleIsActive }
+					left = { this.state.left }
+					right = { this.state.right }
+					focus = { this.state.focus }
 				/>
 			</div>
 		)
