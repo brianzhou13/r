@@ -39,7 +39,7 @@ class linkedList {
 
 	lengthCheck() {
 		this._length === this._allValues.length ? 
-			console.log('length-check failed') : console.log('length-check success');
+			console.log('length-check failed') : console.log('length-check success')
 	}
 
 	addNode(value, key) {
@@ -114,7 +114,7 @@ class linkedList {
 			currentNode.node.next = currentNode.node.previous;
 
 			// reset it by calling 'returnAll()'
-			this._allValues = this.returnAll();
+			this._allValues = this.returnAllFnRightLeft();
 
 			// return the next node
 			return currentNode.node.next;
@@ -123,34 +123,10 @@ class linkedList {
 
 	returnAll() {
 		// this will recurse through and return all the values
-		return this.returnAllFn(this._start);
+		return this.returnAllFnRightLeft(this._start);
 	}
-
-	returnAllFn(node, allNodeValues = '') {
-
-		// copy the allValues input
-		let localAllNodeValues = allNodeValues;
-
-		// concat the current node's value with the 
-		localAllNodeValues = localAllNodeValues.concat(node.value.text);
-
-		// I don't think you can do the proposed method... cause then that'd be an array
-		// localAllNodeValues.push({id: node.value.id, letter: node.value.text});
-
-
-		if(node.next) {
-			return this.returnAllFn(node.next, localAllNodeValues); // recurse to next property
-		} else {
-			// we are at the end -- so concat current node value and return
-			console.log('finishing recursion: ', localAllNodeValues);
-			return localAllNodeValues;
-		}
-	}
-
-	// experimentation nodes below
 
 	getNode(id, node = this._start) {
-			// debugger;
 		if(node.value.id === id) {
 			console.log('node found: ', node);
 			return node;
@@ -159,11 +135,8 @@ class linkedList {
 		return this.getNode(id, node.next);
 	}
 
-
-	//ONLY CALLED WHEN THE USER MOVES LEFT / RIGHT
-
 	resetLeftRightFocus() {
-		// reset left/rightposition
+		// reset left, right, and focus position
 		this._left = '';
 		this._right = '';
 		this._focus = '';
@@ -171,30 +144,30 @@ class linkedList {
 
 
 	returnAllRightLeft(id) {
-		// this will recurse through and return all the values
-		// debugger;
 		// reset left/rightposition
 		this.resetLeftRightFocus();
 
+		// moved out the recursing into another function
 		return this.returnAllFnRightLeft(this._start, id);
 	}
 
 	returnAllFnRightLeft(node, id, flag = false, allNodeValues = '') {
-		// debugger;
-		// copy the allValues input
 		let localAllNodeValues = allNodeValues;
 
 		// concat the current node's value with the 
 		localAllNodeValues = localAllNodeValues.concat(node.value.text);
 
+		// code here deals with moving R, L, C
 		if(node.value.id !== id && flag === false) {
 			// to the left
 			this._left = this._left.concat(node.value.text);
-		} else if (node.value.id === id) {
-			// at the center
+		} 
+		if (node.value.id === id) {
+			// found the node @ the id entered
 			this._focus = node.value.text;
 			flag = true;
-		} else {
+		} 
+		if (node.value.id !== id && flag === true) {
 			// to the right
 			this._right = this._right.concat(node.value.text);
 		}

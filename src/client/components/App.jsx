@@ -15,7 +15,6 @@ class App extends Component {
 			currentText: '', // this is the text displayed on the current line
 			consoleIsActive: false, // this checks to see if the console is active
 			currentKey: '', // the KEY per each letter
-
 			left: '',
 			right: '',
 			focus: '',
@@ -31,23 +30,12 @@ class App extends Component {
 		this._makeCopy = this._makeCopy.bind(this);
 		this._updateState = this._updateState.bind(this);
 		this._updateCurrentText = this._updateCurrentText.bind(this);
+		this._setRightLeft = this._setRightLeft.bind(this);
 
 	}
 
-	componentWillMount() {
-		// document.addEventListener("keypress", this._handleKeyPress, false);
-		// document.addEventListener("keydown", this._handleKeyPress, false);
 
-		// link: http://stackoverflow.com/questions/29069639/listen-to-keypress-for-document-in-reactjs
-	}
-
-	// first create a new copy of linkedList with its prototypes
-	// then copy over all enumerable properties with assign
-		// if we simply only used .assign, we wouldn't be able to get the prototypes
-		// if we simply only used .create, we wouldn't be able to get the individual property values
-	
 	_makeCopy(item) {
-		// return Object.assign(Object.create(linkedList.__proto__), item);
 		let protoCopy = Object.create(item.__proto__);
 		let propertyCopy = Object.assign(protoCopy, item);
 		return propertyCopy;
@@ -58,35 +46,43 @@ class App extends Component {
 	}
 
 	_handleKeyPress(e) {
-		console.log('entered');
-		this._updateLinkedListText(e.key);
+		this.state.consoleIsActive && this._updateLinkedListText(e.key);
+	}
+
+	_setRightLeft(copyOfCurrent) {
+		this.setState({
+			left: copyOfCurrent._left,
+			right: copyOfCurrent._right,
+			focus: copyOfCurrent._focus,
+		});
+	}
+
+	_determineRightLeft(leftOrRight) {
+		// true is left
+		let copyOfCurrent = this._makeCopy(this.state.current);
+		let nextId = leftOrRight ? 
+			copyOfCurrent.getNode(this.state.currentKey).previous.value.id :
+			copyOfCurrent.getNode(this.state.currentKey).next.value.id;
+
+		copyOfCurrent.returnAllRightLeft(nextId);
+
+		// updates the left / right / focus
+		this._setRightLeft(copyOfCurrent);
+
+		this.setState({
+			currentKey: nextId
+		});
 	}
 
 	_handleKeyDown(e) {
-
-		if (e.keyCode === 8) {
+		if (e.keyCode === 8 && this.state.consoleIsActive) {
     	this._deleteCurrentLinkedList();
     }
-    if (e.keyCode === 37) {
-			let copyOfCurrent = this._makeCopy(this.state.current);
-			let nextLeftId = copyOfCurrent.getNode(this.state.currentKey).previous.value.id;
-    	// left
-    	debugger;
-    	copyOfCurrent.returnAllRightLeft(nextLeftId);
-    	// set state for left/ right/ center
-    	this.setState({
-    		left: copyOfCurrent._left,
-    		right: copyOfCurrent._right,
-    		focus: copyOfCurrent._focus,
-    	});
-
-    	// adjust currentKey
-    	this.setState({
-    		currentKey: nextLeftId,
-    	});
+    if (e.keyCode === 37 && this.state.consoleIsActive) { // left
+    	this._determineRightLeft(true);
     }
-    if (e.keyCode === 39) {
-    	// right
+    if (e.keyCode === 39 && this.state.consoleIsActive) {
+    	this._determineRightLeft(false);
     }
 	}
 
@@ -144,17 +140,12 @@ class App extends Component {
 
 		// run the function
 		copyOfCurrent.returnAllRightLeft(newlyAddedNode.value.id);
-		// set state for left/ right/ center
-		this.setState({
-			left: copyOfCurrent._left,
-			right: copyOfCurrent._right,
-			focus: copyOfCurrent._focus,
-		});
 
-		// then sest the 
+		// set state for left/ right/ center
+		this._setRightLeft(copyOfCurrent);
 
 		// get all the text back to add to state
-		let text = copyOfCurrent.returnAll(); // optimization could happen here... since 
+		let text = copyOfCurrent.returnAll(); 
 
 		// update the state
 		this._updateState(copyOfCurrent, this._updateCurrentText(text), newlyAddedNode.value.id);
@@ -163,19 +154,13 @@ class App extends Component {
 	_deleteCurrentLinkedList() {
 		// this will delete the current key
 		let copyOfCurrent = this._makeCopy(this.state.current);
-		// debugger;
 		let newNextNode = copyOfCurrent.removeNode(this.state.currentKey);
 
 		// run the function
 		copyOfCurrent.returnAllRightLeft(newNextNode.value.id);
+
 		// set state for left/ right/ center
-		this.setState({
-			left: copyOfCurrent._left,
-			right: copyOfCurrent._right,
-			focus: copyOfCurrent._focus,
-		});
-
-
+		this._setRightLeft(copyOfCurrent);
 		let text = copyOfCurrent.returnAll();
 
 		this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNode.value.id);

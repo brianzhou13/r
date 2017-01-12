@@ -5,5 +5,7 @@ Known Issues:
 
 - We could move the linkedList processing to the backend, and then use Socket.io to transfer data for quicker processing. 
 
-- as of now, we are doing a recursive call everytime a user enters a letter....
-	- this can GREATLY be optimized...
+- as of now, we are doing a recursive call everytime a user enters a letter....this can GREATLY be optimized.
+
+- possible solutions: have a 'all_Values' property that we can store 
+	- everytime a removeNode / insertNode is called, we update 
