@@ -69,7 +69,6 @@ class linkedList {
 		return this;
 	}
 
-
 	removeNode(id) {
 		let currentNode = {
 			node: this._start,
@@ -150,6 +149,16 @@ class linkedList {
 
 	// experimentation nodes below
 
+	getNode(id, node = this._start) {
+			// debugger;
+		if(node.value.id === id) {
+			console.log('node found: ', node);
+			return node;
+		}
+
+		return this.getNode(id, node.next);
+	}
+
 
 	//ONLY CALLED WHEN THE USER MOVES LEFT / RIGHT
 
@@ -163,7 +172,7 @@ class linkedList {
 
 	returnAllRightLeft(id) {
 		// this will recurse through and return all the values
-
+		// debugger;
 		// reset left/rightposition
 		this.resetLeftRightFocus();
 
@@ -171,7 +180,7 @@ class linkedList {
 	}
 
 	returnAllFnRightLeft(node, id, flag = false, allNodeValues = '') {
-
+		// debugger;
 		// copy the allValues input
 		let localAllNodeValues = allNodeValues;
 
@@ -189,13 +198,6 @@ class linkedList {
 			// to the right
 			this._right = this._right.concat(node.value.text);
 		}
-
-		// this._left = '';
-		// this._right = '';
-		// this._focus = '';
-
-		// I don't think you can do the proposed method... cause then that'd be an array
-		// localAllNodeValues.push({id: node.value.id, letter: node.value.text});
 
 		if(node.next) {
 			return this.returnAllFnRightLeft(node.next, id, flag, localAllNodeValues); // recurse to next property

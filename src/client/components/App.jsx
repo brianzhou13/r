@@ -15,6 +15,10 @@ class App extends Component {
 			currentText: '', // this is the text displayed on the current line
 			consoleIsActive: false, // this checks to see if the console is active
 			currentKey: '', // the KEY per each letter
+
+			left: '',
+			right: '',
+			focus: '',
 		};
 
 		// set bindings for in-function calls
@@ -59,8 +63,30 @@ class App extends Component {
 	}
 
 	_handleKeyDown(e) {
+
 		if (e.keyCode === 8) {
     	this._deleteCurrentLinkedList();
+    }
+    if (e.keyCode === 37) {
+			let copyOfCurrent = this._makeCopy(this.state.current);
+			let nextLeftId = copyOfCurrent.getNode(this.state.currentKey).previous.value.id;
+    	// left
+    	debugger;
+    	copyOfCurrent.returnAllRightLeft(nextLeftId);
+    	// set state for left/ right/ center
+    	this.setState({
+    		left: copyOfCurrent._left,
+    		right: copyOfCurrent._right,
+    		focus: copyOfCurrent._focus,
+    	});
+
+    	// adjust currentKey
+    	this.setState({
+    		currentKey: nextLeftId,
+    	});
+    }
+    if (e.keyCode === 39) {
+    	// right
     }
 	}
 
