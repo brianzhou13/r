@@ -1,6 +1,8 @@
+import axios from 'axios';
+import _ from 'lodash';
+import uuidV1 from 'uuid/v1';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import uuidV1 from 'uuid/v1';
 
 import Console from './Console';
 import linkedList from '../linkedList'; // imports a new linkedList data structure
@@ -18,6 +20,7 @@ class App extends Component {
 			left: '',
 			right: '',
 			focus: '',
+			history: [],
 		};
 
 		// set bindings for in-function calls
@@ -31,7 +34,9 @@ class App extends Component {
 		this._updateState = this._updateState.bind(this);
 		this._updateCurrentText = this._updateCurrentText.bind(this);
 		this._setRightLeft = this._setRightLeft.bind(this);
-
+		this._processCode = this._processCode.bind(this);
+		this._clearConsole = this._clearConsole.bind(this);
+		this._setHistory = this._setHistory.bind(this);
 	}
 
 
@@ -46,7 +51,7 @@ class App extends Component {
 	}
 
 	_handleKeyPress(e) {
-		this.state.consoleIsActive && this._updateLinkedListText(e.key);
+		e.key.length === 1 && this.state.consoleIsActive && this._updateLinkedListText(e.key);
 	}
 
 	_setRightLeft(copyOfCurrent) {
@@ -74,6 +79,46 @@ class App extends Component {
 		});
 	}
 
+	_clearConsole() {
+		this.setState({
+			current: new linkedList(),
+			currentText: '',
+			currentKey: '', // the KEY per each letter
+			left: '',
+			right: '',
+			focus: '',
+		})
+	}
+
+	_setHistory(history) {
+		this.setState({
+			history: history
+		})
+	}
+
+	_processCode() {
+		axios.post(`/api/eval/${this.state.currentText.id}`, {
+			text: this.state.currentText.text
+		})
+		.then(function(resp){
+			let test = this.state.history.slice();
+			test.push({
+					id: this.state.currentText.id,
+					response: resp.data,
+				});
+
+			// updates the history state
+			this._setHistory(test);
+			
+			// clears the console
+			this._clearConsole();
+
+		}.bind(this))
+		.catch((err) => {
+			console.log(`error within the _processCode function: ${err}`);
+		});
+	}
+
 	_handleKeyDown(e) {
 		if (e.keyCode === 8 && this.state.consoleIsActive) {
     	this._deleteCurrentLinkedList();
@@ -83,6 +128,9 @@ class App extends Component {
     }
     if (e.keyCode === 39 && this.state.consoleIsActive) {
     	this._determineRightLeft(false);
+    }
+    if (e.keyCode === 13 && this.state.consoleIsActive) {
+    	this._processCode();
     }
 	}
 
@@ -109,7 +157,6 @@ class App extends Component {
 			let copyOfCurrent = this._makeCopy(this.state.current);
 			let newlyAddedNode = copyOfCurrent.addNode(firstSpace, this._generateUniqueKey()); // add a space character for now
 
-			// debugger;
 			this._updateState(copyOfCurrent, this._updateCurrentText(firstSpace), newlyAddedNode.value.id);
 		}
 	}
@@ -186,6 +233,7 @@ class App extends Component {
 					left = { this.state.left }
 					right = { this.state.right }
 					focus = { this.state.focus }
+					history = { this.state.history }
 				/>
 			</div>
 		)

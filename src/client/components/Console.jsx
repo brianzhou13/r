@@ -14,16 +14,18 @@ class Console extends Component {
 
 	}
 
-	// Console
-		// History
-		// Current
+	componentWillReceiveProps() {
+		
+	}
 
 
 	render() {
 		return (
 			<div className='console-elem'>
 				<div id='console' /*className='gradient'*/>
-					<History />
+					<History 
+						history = { this.props.history }
+					/>
 					<CurrentLine 
 						// current = { this.props.current } // do we need this ?
 						currentText = { this.props.currentText } 
