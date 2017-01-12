@@ -9,3 +9,19 @@ Known Issues:
 
 - possible solutions: have a 'all_Values' property that we can store 
 	- everytime a removeNode / insertNode is called, we update 
+
+- cycle down
+
+- display all previous items entered
+
+- stylings
+
+- insert
+
+MISSING:
+
+- trouble deleting the first character
+
+- output prints weird
+
+- refactor

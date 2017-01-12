@@ -17,6 +17,7 @@ class App extends Component {
 			currentText: '', // this is the text displayed on the current line
 			consoleIsActive: false, // this checks to see if the console is active
 			currentKey: '', // the KEY per each letter
+			currentIndex: 0,
 			left: '',
 			right: '',
 			focus: '',
@@ -37,6 +38,8 @@ class App extends Component {
 		this._processCode = this._processCode.bind(this);
 		this._clearConsole = this._clearConsole.bind(this);
 		this._setHistory = this._setHistory.bind(this);
+		this._cycleHistory = this._cycleHistory.bind(this);
+		this._updateIndex = this._updateIndex.bind(this);
 	}
 
 
@@ -84,16 +87,17 @@ class App extends Component {
 			current: new linkedList(),
 			currentText: '',
 			currentKey: '', // the KEY per each letter
+			currentIndex: this.state.currentIndex + 1, // could update by _updateIndex
 			left: '',
 			right: '',
 			focus: '',
-		})
+		});
 	}
 
 	_setHistory(history) {
 		this.setState({
 			history: history
-		})
+		});
 	}
 
 	_processCode() {
@@ -105,6 +109,9 @@ class App extends Component {
 			test.push({
 					id: this.state.currentText.id,
 					response: resp.data,
+					current: this.state.current,
+					currentIndex: this.state.currentIndex,
+					currentText: this.state.currentText,
 				});
 
 			// updates the history state
@@ -119,6 +126,30 @@ class App extends Component {
 		});
 	}
 
+	_updateIndex(newIndex) {
+		this.setState({
+			currentIndex: newIndex,
+		});
+	}
+
+	_cycleHistory(upOrDown) {
+		// the user cycles up
+		let newHistoryIndex = upOrDown ? this.state.currentIndex - 1 : this.state.currentIndex + 1;
+		
+
+			// if it does reset current history with history 1 index less than current
+		let newHistoryCurrent = this.state.history[newHistoryIndex];
+		let newHistoryCurrentKey = newHistoryCurrent.current._tail.value.id;
+		let newHistoryCurrentText = newHistoryCurrent.currentText;
+		
+		this._updateState(newHistoryCurrent, newHistoryCurrentKey, newHistoryCurrentText);
+		this._updateIndex(newHistoryIndex);
+
+		// resets our left, right, focus
+		this._setRightLeft(newHistoryCurrent.current); //XXX
+		// debugger;
+	}
+
 	_handleKeyDown(e) {
 		if (e.keyCode === 8 && this.state.consoleIsActive) {
     	this._deleteCurrentLinkedList();
@@ -128,6 +159,12 @@ class App extends Component {
     }
     if (e.keyCode === 39 && this.state.consoleIsActive) {
     	this._determineRightLeft(false);
+    }
+    if (e.keyCode === 38 && this.state.consoleIsActive) { // up arrow
+    	this._cycleHistory(true);
+    }
+    if (e.keyCode === 40 && this.state.consoleIsActive) { // down arrow
+    	this._cycleHistory(false);
     }
     if (e.keyCode === 13 && this.state.consoleIsActive) {
     	this._processCode();
