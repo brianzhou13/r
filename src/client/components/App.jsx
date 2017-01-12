@@ -74,11 +74,12 @@ class App extends Component {
 
 	_determineRightLeft(leftOrRight) {
 		// true is left
+
 		let copyOfCurrent = this._makeCopy(this.state.current);
+		// debugger;
 		let nextId = leftOrRight ? 
 			copyOfCurrent.getNode(this.state.currentKey).previous.value.id :
 			copyOfCurrent.getNode(this.state.currentKey).next.value.id;
-
 		copyOfCurrent.returnAllRightLeft(nextId);
 
 		// updates the left / right / focus
@@ -153,8 +154,10 @@ class App extends Component {
 		let newHistoryCurrent = this.state.history[newHistoryIndex];
 		let newHistoryCurrentKey = newHistoryCurrent.current._tail.value.id;
 		// debugger;
-		let newHistoryCurrentText = newHistoryCurrent.currentText.text;
+		// let newHistoryCurrentText = newHistoryCurrent.currentText.text;
+		let newHistoryCurrentText = newHistoryCurrent.currentText;
 		
+		debugger;
 		this._updateState(newHistoryCurrent.current, newHistoryCurrentKey, newHistoryCurrentText);
 		this._updateIndex(newHistoryIndex);
 
@@ -192,6 +195,7 @@ class App extends Component {
 	}
 
 	_updateState(current, currentText, currentKey) {
+		
 		this.setState({
 			current: current,
 			currentText: currentText,

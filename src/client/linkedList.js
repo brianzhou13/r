@@ -141,7 +141,7 @@ class linkedList {
 
 	returnAll() {
 		// this will recurse through and return all the values
-		return this.returnAllFnRightLeft(this._start);
+		return this.returnAllRightLeft(this._start);
 	}
 
 	getNode(id, node = this._start) {
