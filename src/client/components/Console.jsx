@@ -25,10 +25,12 @@ class Console extends Component {
 				<div id='console' /*className='gradient'*/>
 					<History 
 						history = { this.props.history }
+						Name = { this.props.name }
+						Username = { this.props.username }
 					/>
 					<CurrentLine 
 						// current = { this.props.current } // do we need this ?
-						currentText = { this.props.currentText } 
+						// currentText = { this.props.currentText } 
 						consoleIsActive = { this.props.consoleIsActive } // do we need this ?
 						left = { this.props.left }
 						right = { this.props.right }

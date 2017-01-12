@@ -82,15 +82,23 @@
   color: red;
 }
 
+
+.block {
+
+}
+
 .blue {
   color: blue;
+  background-color: white !important;
 }
 
 .history-font {
   color: white;
 }
 
-
+.user-tag { 
+  color: white;
+}
 
 
 

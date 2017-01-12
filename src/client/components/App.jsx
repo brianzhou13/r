@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 import Console from './Console';
+import EnterCredentials from './EnterCredentials'; // NOT IMPLEMENTED ET
 import linkedList from '../linkedList'; // imports a new linkedList data structure
 
 class App extends Component {
@@ -58,6 +59,12 @@ class App extends Component {
 	}
 
 	_setRightLeft(copyOfCurrent) {
+		console.log('left: ', copyOfCurrent._left);
+		console.log('center: ', copyOfCurrent._focus);
+		console.log('right: ', copyOfCurrent._right);
+
+
+
 		this.setState({
 			left: copyOfCurrent._left,
 			right: copyOfCurrent._right,
@@ -135,14 +142,20 @@ class App extends Component {
 	_cycleHistory(upOrDown) {
 		// the user cycles up
 		let newHistoryIndex = upOrDown ? this.state.currentIndex - 1 : this.state.currentIndex + 1;
+
+		if(!this.state.history[newHistoryIndex]) {
+			// out of index
+			return;
+		}
 		
 
 			// if it does reset current history with history 1 index less than current
 		let newHistoryCurrent = this.state.history[newHistoryIndex];
 		let newHistoryCurrentKey = newHistoryCurrent.current._tail.value.id;
-		let newHistoryCurrentText = newHistoryCurrent.currentText;
+		// debugger;
+		let newHistoryCurrentText = newHistoryCurrent.currentText.text;
 		
-		this._updateState(newHistoryCurrent, newHistoryCurrentKey, newHistoryCurrentText);
+		this._updateState(newHistoryCurrent.current, newHistoryCurrentKey, newHistoryCurrentText);
 		this._updateIndex(newHistoryIndex);
 
 		// resets our left, right, focus
@@ -240,18 +253,33 @@ class App extends Component {
 		let copyOfCurrent = this._makeCopy(this.state.current);
 		let newNextNode = copyOfCurrent.removeNode(this.state.currentKey);
 
+		/*
+			checks to see if we are removing the first node (._start). If we are removing the 
+			first one, then the returned node from our LinkedList would point to null; therefore,
+			would not actually have a .value.id property. 
+		*/
+		let newNextNodeId = newNextNode !== null ? newNextNode.value.id : false;
+
 		// run the function
-		copyOfCurrent.returnAllRightLeft(newNextNode.value.id);
+		// copyOfCurrent.returnAllRightLeft(newNextNode.value.id);
+		let text = copyOfCurrent.returnAllRightLeft(newNextNodeId);
 
 		// set state for left/ right/ center
 		this._setRightLeft(copyOfCurrent);
-		let text = copyOfCurrent.returnAll();
 
-		this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNode.value.id);
+		// let text = copyOfCurrent.returnAllRightLeft();
+		console.log('text is: ', text);
+
+		// this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNode.value.id);
+		this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNodeId);
 	}
 
-	// can't delete twice...
 
+	_getNameOnClick(e) {
+		e.preventDefault();
+
+		// set the user 
+	}
 
 
 
@@ -272,6 +300,7 @@ class App extends Component {
 					focus = { this.state.focus }
 					history = { this.state.history }
 				/>
+				<EnterCredentials />
 			</div>
 		)
 	}

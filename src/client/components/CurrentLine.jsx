@@ -19,16 +19,16 @@ class CurrentLine extends Component {
 
 	}
 
+	// <span id='current-text'>{this.props.currentText.text}</span>
 	
 	render() {
 		return (
 			<div>
-				<span id='current-text'>{this.props.currentText.text}</span>
-				<div>
-					<span className='red'>{this.props.left}</span>
-					<span className='blue'>{this.props.focus}</span>
-					<span className='red'>{this.props.right}</span>
-				</div>
+				<span className='user-tag'>Brian:r brianzhou$</span>
+				<span className='red'>{this.props.left}</span>
+				<span className='blue'>{this.props.focus}</span>
+				<span className='red'>{this.props.right}</span>
+				<span className='blinker'>_</span>
 			</div>
 		)
 	}

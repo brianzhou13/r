@@ -25,3 +25,6 @@ MISSING:
 - output prints weird
 
 - refactor
+
+- if you scroll all the way to the left to try and delete the first value... not working right now
+	** need a gate for it

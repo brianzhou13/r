@@ -71,31 +71,49 @@ class linkedList {
 
 	removeNode(id) {
 		let currentNode = {
-			node: this._start,
+			node: this._tail,
 			counter: 0,
 		};
+
+		/*
+			we are searching from the beginning to find which node we are to remove
+		*/
 		while(currentNode.node.value.id !== id) {
 			if(this._length < currentNode.counter) {
 				return 'id was not found';
 				// throw; // we can throw error as of now -- clean up for later
 			}
-			currentNode.node = currentNode.node.next;
+			currentNode.node = currentNode.node.previous;
 		}
 
 		// decrement
 		this.subtractLength();
 
 		if(this._start.value.id === id) {
-			// edit _allValues first by removing the first character
-			this._allValues = this._allValues.slice(1, this._length);
+			if(this._length > 1) {
+				/* 	
+					we are first by removing the first character when there are more than one character
+				*/
+				this._allValues = this._allValues.slice(1, this._length);
 
-			// removing the first Node
-			this._start.next.previous = null;
-			this._start = this._start.next;
+				// removing the first Node
+				this._start.next.previous = null;
+				this._start = this._start.next;
 
-			// return the new head
-			return this._start;
+				// return the new head
+				return this._start;
 
+			} else {
+				/*
+					we are removing the first character, and there is ONLY one character
+				*/
+				this._allValues = '';
+
+				this._start = null;
+
+				return this._start;
+				
+			}
 
 		} else if (this._tail.value.id === id) {
 			// edit _allValues first by removing the last character
@@ -114,7 +132,7 @@ class linkedList {
 			currentNode.node.next = currentNode.node.previous;
 
 			// reset it by calling 'returnAll()'
-			this._allValues = this.returnAllFnRightLeft();
+			this._allValues = this.returnAllRightLeft();
 
 			// return the next node
 			return currentNode.node.next;
@@ -147,17 +165,33 @@ class linkedList {
 		// reset left/rightposition
 		this.resetLeftRightFocus();
 
+		console.log('value for id: ', id);
+
+		if(id === false) {
+			// at the end
+			console.log("returning null");
+			return '';
+		}
+
 		// moved out the recursing into another function
 		return this.returnAllFnRightLeft(this._start, id);
 	}
 
 	returnAllFnRightLeft(node, id, flag = false, allNodeValues = '') {
+		// debugger;
 		let localAllNodeValues = allNodeValues;
 
 		// concat the current node's value with the 
 		localAllNodeValues = localAllNodeValues.concat(node.value.text);
 
 		// code here deals with moving R, L, C
+		if(node.value.previous === null) {
+			this.resetLeftRightFocus();
+
+			// then return
+			return localAllNodeValues;
+		}
+
 		if(node.value.id !== id && flag === false) {
 			// to the left
 			this._left = this._left.concat(node.value.text);
