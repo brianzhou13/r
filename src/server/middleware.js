@@ -3,6 +3,8 @@ var webpackHotMiddleware = require('webpack-hot-middleware');
 var webpack = require('webpack');
 var path = require('path');
 var webpackConfig = require('../../webpack.config');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 // may need to wrap this into NODE_ENV
 var compiler = webpack(webpackConfig);
@@ -23,6 +25,14 @@ module.exports = function(app, express) {
 			heartbeat: 10 * 1000,
 		}));
 	}
+
+  app.use(morgan('dev'));
+
+  //Reads information from forms ands puts it in a body object
+  app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 
 	app.use(function(req, res, next) {
 		console.log('[LOG @ Middleware] handling' + req.url);
