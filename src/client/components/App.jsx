@@ -153,12 +153,11 @@ class App extends Component {
 			// if it does reset current history with history 1 index less than current
 		let newHistoryCurrent = this.state.history[newHistoryIndex];
 		let newHistoryCurrentKey = newHistoryCurrent.current._tail.value.id;
-		// debugger;
+		debugger;
 		// let newHistoryCurrentText = newHistoryCurrent.currentText.text;
 		let newHistoryCurrentText = newHistoryCurrent.currentText;
 		
-		debugger;
-		this._updateState(newHistoryCurrent.current, newHistoryCurrentKey, newHistoryCurrentText);
+		this._updateState(newHistoryCurrent.current, newHistoryCurrentText, newHistoryCurrentKey);
 		this._updateIndex(newHistoryIndex);
 
 		// resets our left, right, focus
@@ -195,7 +194,7 @@ class App extends Component {
 	}
 
 	_updateState(current, currentText, currentKey) {
-		
+
 		this.setState({
 			current: current,
 			currentText: currentText,
