@@ -62,11 +62,41 @@ class linkedList {
 		return this._tail;
 	}
 
-	insertNode(value) {
+	insertNode(value, currentKey, generatedKey) {
 		// this inserts an item into a specific index
+		let node = new Node(value, generatedKey);
+		let counter = 0;
+		let currentNode = this._start;
+		while(currentNode.value.id !== currentKey) {
+			if(this._length < counter) {
+				return 'entry point could not be found';
+			}
+			currentNode = currentNode.next;
+		}
+
+		// once we've found our node -- exited the while-loop
+
+		// increment the size of our LinkedList
+		this.addLength();
+
+		if(this._start.value.id === currentKey) {
+			// inserting at head
+
+			// set new node to point to current start
+			node.next = this._start;
+			this._start.previous = node.next;
+			this._start = node;
+		} else {
+			currentNode.next.previous = node;
+			node.next = currentNode.next;
+			node.previous = currentNode;
+			currentNode.next = node;
+			// should work....
+		}
+
 
 		// after insert, you'd return the List
-		return this;
+		return currentNode; // o
 	}
 
 	removeNode(id) {
@@ -205,6 +235,8 @@ class linkedList {
 			// to the right
 			this._right = this._right.concat(node.value.text);
 		}
+
+		// debugger;
 
 		if(node.next) {
 			return this.returnAllFnRightLeft(node.next, id, flag, localAllNodeValues); // recurse to next property

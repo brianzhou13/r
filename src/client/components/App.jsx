@@ -74,12 +74,13 @@ class App extends Component {
 
 	_determineRightLeft(leftOrRight) {
 		// true is left
-
 		let copyOfCurrent = this._makeCopy(this.state.current);
 		// debugger;
 		let nextId = leftOrRight ? 
 			copyOfCurrent.getNode(this.state.currentKey).previous.value.id :
 			copyOfCurrent.getNode(this.state.currentKey).next.value.id;
+
+			console.log('nextId is: ', nextId);
 		copyOfCurrent.returnAllRightLeft(nextId);
 
 		// updates the left / right / focus
@@ -153,7 +154,7 @@ class App extends Component {
 			// if it does reset current history with history 1 index less than current
 		let newHistoryCurrent = this.state.history[newHistoryIndex];
 		let newHistoryCurrentKey = newHistoryCurrent.current._tail.value.id;
-		debugger;
+		// debugger;
 		// let newHistoryCurrentText = newHistoryCurrent.currentText.text;
 		let newHistoryCurrentText = newHistoryCurrent.currentText;
 		
@@ -236,16 +237,18 @@ class App extends Component {
 		let copyOfCurrent = this._makeCopy(this.state.current);
 
 		// add key pressed into end of our linkedList
-		let newlyAddedNode = copyOfCurrent.addNode(value, this._generateUniqueKey());
+		let newlyAddedNode = !copyOfCurrent._length || copyOfCurrent._tail.value.id === this.state.currentKey ?
+			 copyOfCurrent.addNode(value, this._generateUniqueKey()): // add node if at end
+			 copyOfCurrent.insertNode(value, this.state.currentKey, this._generateUniqueKey()); // insert node if not at end
 
-		// run the function
-		copyOfCurrent.returnAllRightLeft(newlyAddedNode.value.id);
+		/*
+		 returns the new total text, and it also sets the current ._left, ._right, ._focus
+		 properties on our existing linkedList
+		*/
+		let text = copyOfCurrent.returnAllRightLeft(newlyAddedNode.value.id);
 
 		// set state for left/ right/ center
 		this._setRightLeft(copyOfCurrent);
-
-		// get all the text back to add to state
-		let text = copyOfCurrent.returnAll(); 
 
 		// update the state
 		this._updateState(copyOfCurrent, this._updateCurrentText(text), newlyAddedNode.value.id);
