@@ -2,8 +2,8 @@
 
 ## About
 
-* See it live here: 
-	** YOUTUBE_LINK
+* See it on youtube here: https://youtu.be/aRAoyb3vNXM 
+	** there are still bugs.. and you can see some in the video. 
 
 ## How it Works?
 The data structure that I applied for this project was a Doubly-LinkedList. The reason why I decided to use this was because I was going to make a lot of insertions/deletions, and I believed this would be the most efficient data structure given my use-case. 
@@ -41,13 +41,21 @@ Back to the `eval` part. All inputs are sent to the backend through a POST reque
 * `node run wp` to start webpack
 * `npm start` to run server
 
+
 Known Issues:
 
 - Once you get to the bottom of the console, everything isn't resizing propertly; therefore, your inputs will be pushed outside of the console.
 
-- We could have moved a lot of the processing logic to the backend and simply send the doubly linkedList instance back and forth from the front-end to the back-end through socket.io.
+
+- We could also store existing state into localStorage to maintain what the user has typed. 
 
 - insertion/deletion are still pretty buggy. So there are still some kinks left... such as if you insert with a 'space' first, then it prints everything backward. lol. 
+
+- also, if we go back into history and cycle up/down, then try to execute that line, it's not being recorded to history since the `id`s for that line aren't unique. Not sure if this is exactly why, but this is another item to look into.
+
+- Can utilize a queue.
+
+- We could have moved a lot of the processing logic to the backend and simply send the doubly linkedList instance back and forth from the front-end to the back-end through socket.io.
 
 
 
