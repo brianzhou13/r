@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 import Console from './Console';
-import EnterCredentials from './EnterCredentials'; // NOT IMPLEMENTED ET
 import linkedList from '../linkedList'; // imports a new linkedList data structure
 
 class App extends Component {
@@ -297,16 +296,15 @@ class App extends Component {
 				onClick = { this._setConsoleIsActive }
 				onKeyPress = { this._handleKeyPress }
 				onKeyDown = { this._handleKeyDown }>
-				<Console
-					// current = { this.state.current } // not sure about if we need this
-					currentText = { this.state.currentText }
-					consoleIsActive = { this.state.consoleIsActive }
-					left = { this.state.left }
-					right = { this.state.right }
-					focus = { this.state.focus }
-					history = { this.state.history }
-				/>
-				<EnterCredentials />
+			<Console
+				// current = { this.state.current } // not sure about if we need this
+				currentText = { this.state.currentText }
+				consoleIsActive = { this.state.consoleIsActive }
+				left = { this.state.left }
+				right = { this.state.right }
+				focus = { this.state.focus }
+				history = { this.state.history }
+			/>
 			</div>
 		)
 	}

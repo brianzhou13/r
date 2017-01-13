@@ -7,16 +7,7 @@ Known Issues:
 
 - as of now, we are doing a recursive call everytime a user enters a letter....this can GREATLY be optimized.
 
-- possible solutions: have a 'all_Values' property that we can store 
-	- everytime a removeNode / insertNode is called, we update 
-
-- cycle down
-
-- display all previous items entered
-
 - stylings
-
-- insert
 
 MISSING:
 
@@ -28,3 +19,5 @@ MISSING:
 
 - if you scroll all the way to the left to try and delete the first value... not working right now
 	** need a gate for it
+
+- Once you get to the bottom, the screen doesn't resize appropriately ** 

@@ -1,40 +1,44 @@
-/* The inner console element. */
-.jqconsole {
-    padding: 10px;
+/* HR SourceSansPro Font */
+@font-face {
+    font-family: SourceSansPro;
+    src: url('fonts/source-sans-pro/SourceSansPro-Regular.otf');
 }
-/* The cursor. */
-.jqconsole-cursor {
-    background-color: gray;
+@font-face {
+    font-family: SourceSansPro;
+    src: url('fonts/source-sans-pro/SourceSansPro-Bold.otf');
+    font-weight: bold;
 }
-/* The cursor color when the console looses focus. */
-.jqconsole-blurred .jqconsole-cursor {
-    background-color: #666;
+@font-face {
+    font-family: SourceSansPro;
+    src: url('fonts/source-sans-pro/SourceSansPro-Italic.otf');
+    font-style: italic;
 }
-/* The current prompt text color */
-.jqconsole-prompt {
-    color: #0d0;
+@font-face {
+    font-family: SourceSansPro;
+    src: url('fonts/source-sans-pro/SourceSansPro-BoldItalic.otf');
+    font-weight: bold;
+    font-style: italic;
 }
-/* The command history */
-.jqconsole-old-prompt {
-    color: #0b0;
-    font-weight: normal;
+@font-face {
+    font-family: SourceSansPro;
+    src: url('fonts/source-sans-pro/SourceSansPro-Light.otf');
+    font-weight: 300;
 }
-/* The text color when in input mode. */
-.jqconsole-input {
-    color: #dd0;
-}
-/* Previously entered input. */
-.jqconsole-old-input {
-    color: #bb0;
-    font-weight: normal;
-}
-/* The text color of the output. */
-.jqconsole-output {
-    color: white;
+@font-face {
+    font-family: SourceSansPro;
+    src: url('fonts/source-sans-pro/SourceSansPro-LightItalic.otf');
+    font-style: italic;
+    font-weight: 300;
 }
 
 #app {
   position: relative;
+}
+
+.font {
+  font-family: SourceSansPro;
+  font-weight: 100;
+  font-size: 15px;
 }
 
 /******* APP ELEMEMNT *********/
@@ -42,33 +46,41 @@
   position: fixed;
   width: 100%;
   height: 100%;
-}
+  left: 0px;
+  top: 0px;
 
-/******* CONSOLE ELEMENT ******/
-
-.console-elem {
-  display: flex;
-  justify-content: center;
-
-  /* easy-fix right now in regards to getting the padding */
-  padding-top: 100px;
-}
-
-/* The console container element */
-#console {
-  position: absolute;
-  width: 800px;
-  height: 400px;
-  background-color:black;
-  z-index: 10;
-}
-
-.gradient {
   background: #EC6EAD; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #3494E6, #EC6EAD); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(bottom right, #3494E6, #EC6EAD); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(bottom right, #3494E6, #EC6EAD); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to bottom right, #3494E6, #EC6EAD); 
+
+}
+
+/******* CONSOLE ELEMENT ******/
+
+.console-elem {
+  padding-top: 500px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  /*flex-direction: column;*/
+
+  /* easy-fix right now in regards to getting the padding */
+  padding-top: 100px;
+
+}
+
+/* The console container element */
+#console {
+  padding: 10px 10px 10px 10px;
+
+  position: absolute;
+  width: 800px;
+  height: 400px;
+  background-color:black;
+  z-index: 10;
+  border-radius: 10px;
 }
 
 /******* CURRENTLINE ELEMENT ******/
@@ -77,27 +89,28 @@
   color: #eee;
 }
 
-
-.red {
-  color: red;
+.non-focused-text {
+  color: #FBD3E9;
 }
 
-
-.block {
-
-}
-
-.blue {
-  color: blue;
-  background-color: white !important;
+.focused-text {
+  color: #FBD3E9;
+  background-color: #ee0979 !important;
 }
 
 .history-font {
-  color: white;
+  color: #FBD3E9;
 }
 
 .user-tag { 
   color: white;
+}
+
+.instructions-box {
+  background-color: white;
+  padding-right: 200px;
+  padding-left: 200px;
+
 }
 
 
