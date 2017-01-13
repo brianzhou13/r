@@ -31,7 +31,7 @@ Back to the `eval` part. All inputs are sent to the backend through a POST reque
 ## Primary Front-End Technologies Used:
 * React
 * Webpack
-* Enzyme
+* Chai / Enzyme
 
 ## Primary Back-End Technologies Used:
 * Express
