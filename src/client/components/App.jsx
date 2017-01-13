@@ -307,17 +307,6 @@ class App extends Component {
 	}
 
 
-	// used for initial setup
-	componentDidMount() {
-		if(!this.state.current.getLength()) {
-			const firstSpace = ' ';
-			let copyOfCurrent = this._makeCopy(this.state.current);
-			let newlyAddedNode = copyOfCurrent.addNode(firstSpace, this._generateUniqueKey()); // add a space character for now
-
-			this._updateState(copyOfCurrent, this._updateCurrentText(firstSpace), newlyAddedNode.value.id);
-		}
-	}
-
 	/*
 	 * @name: _setConsoleIsActive
 	 * @input: click event
@@ -405,6 +394,16 @@ class App extends Component {
 		this._updateState(copyOfCurrent, this._updateCurrentText(text), newNextNodeId);
 	}
 
+	// used for initial setup
+	componentDidMount() {
+		if(!this.state.current.getLength()) {
+			const firstSpace = ' ';
+			let copyOfCurrent = this._makeCopy(this.state.current);
+			let newlyAddedNode = copyOfCurrent.addNode(firstSpace, this._generateUniqueKey()); // add a space character for now
+
+			this._updateState(copyOfCurrent, this._updateCurrentText(firstSpace), newlyAddedNode.value.id);
+		}
+	}
 
 	render() {
 		return (

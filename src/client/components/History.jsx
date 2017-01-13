@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { render } from 'react-dom';
 
+
 class History extends Component {
 	constructor(props) {
 		super(props);
@@ -16,10 +17,10 @@ class History extends Component {
 				{
 					this.props.history.map((entry) => {
 						return (
-							<div className='history'>
-								<span key={'input ' + entry.id} className='history-font'>{entry.currentText.text}</span>
+							<div key={ 'div ' + entry.id } className='history'>
+								<span key={ 'input ' + entry.id } className='history-font'>{ entry.currentText.text }</span>
 								<br/>
-								<span key={'result' + entry.id} className='history-font'>{entry.response}</span>
+								<span key={ 'result' + entry.id } className='history-font'>{ entry.response }</span>
 							</div>
 						)
 					})

@@ -47,6 +47,7 @@ Known Issues:
 
 - We could have moved a lot of the processing logic to the backend and simply send the doubly linkedList instance back and forth from the front-end to the back-end through socket.io.
 
+- insertion/deletion are still pretty buggy. So there are still some kinks left... such as if you insert with a 'space' first, then it prints everything backward. lol. 
 
 
 

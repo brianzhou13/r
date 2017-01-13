@@ -126,6 +126,12 @@ class linkedList {
 		let node = new Node(value, generatedKey);
 		let counter = 0;
 		let currentNode = this._start;
+
+		// if then send to addNode
+		if(currentNode.value.id === null) {
+			this.addnode(value, generatedKey);
+		}
+
 		while(currentNode.value.id !== currentKey) {
 			if(this._length < counter) {
 				return 'entry point could not be found';
@@ -232,7 +238,6 @@ class linkedList {
 	 */
 	getNode(id, node = this._start) {
 		if(node.value.id === id) {
-			console.log('node found: ', node);
 			return node;
 		}
 		return this.getNode(id, node.next);
@@ -260,8 +265,6 @@ class linkedList {
 	returnAllRightLeft(id) {
 		// reset left/rightposition
 		this.resetLeftRightFocus();
-
-		console.log('value for id: ', id);
 
 		if(id === false) {
 			// at the end
