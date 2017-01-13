@@ -8,7 +8,7 @@ class CurrentLine extends Component {
 
 	render() {
 		return (
-			<div className='font'>
+			<div>
 				<span className='user-tag'>Brian: r brianzhou$</span>
 				{ 
 					// this is for when there are no entries

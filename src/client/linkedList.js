@@ -1,5 +1,11 @@
-import uuidV1 from 'uuid/v1';
+// linkedList data structure for fast insertion/deletion
 
+/*
+ * @name: Node
+ * @input: the value and unique key of the to-be-created node
+ * @output: n/a
+ * @purpose: create a node to be added/inserted into our doubly-linkedlist
+ */
 class Node {
 	constructor(nodeValue, key) {
 		this.value = {
@@ -7,41 +13,88 @@ class Node {
 			text: nodeValue,
 		};
 		this.next = null;
-		this.previous = null; // doubly linked-list to help with insertion
+		this.previous = null;
 	}
 }
 
+
+/*
+ * @name: linkedList
+ * @input: n/a
+ * @output: n/a
+ * @purpose: creates a doubly-linkedList
+ */
 class linkedList {
+	
 	constructor() {
+	 /*
+	  * @name: properties on the linkedList class
+	  * @purpose:
+	  *   `._start`: the first node
+	  *   `._tail`: the last node
+	  *   `._allValues`: a string containing the values of all nodes
+	  *   `._length`: the number of nodes
+	  *   `._focus`: string of the character at a specific id
+	  *   `._left`: string of all the values to the left of the `._focus` node
+	  *   `._right`: string of all the values to the right of the `._focus` node
+	  */
+
 		this._start = null;
 		this._tail = null;
 		this._allValues = '';
-		this._allValuesArray = [];
-		this._length = 0; //starts at 0
-
-		// test
+		this._length = 0; 
+		this._focus = '';
 		this._left = '';
 		this._right = '';
-		this._focus = '';
 	}
 
+	/*
+	 * @name: getLength
+	 * @input: n/a
+	 * @output: int
+	 * @purpose: returns the length
+	 */
 	getLength() {
 		return this._length;
 	}
 
+	/*
+	 * @name: addLength
+	 * @input: n/a
+	 * @output: n/a
+	 * @purpose: increments the `._length` property
+	 */
 	addLength() {
 		this._length++;
 	}
 
+	/*
+	 * @name: subtractLength
+	 * @input: n/a
+	 * @output: n/a
+	 * @purpose: decrements the `._length` property
+	 */
 	subtractLength() {
 		this._length--;
 	}
 
+	/*
+	 * @name: lengthCheck
+	 * @input: n/a
+	 * @output: boolean
+	 * @purpose: checks that number of characters isn't more than the number of nodes
+	 */
 	lengthCheck() {
-		this._length === this._allValues.length ? 
+		return this._length === this._allValues.length ? 
 			console.log('length-check failed') : console.log('length-check success')
 	}
 
+	/*
+	 * @name: addnode
+	 * @input: character, and a unique key
+	 * @output: the node that's just been added
+	 * @purpose: adds a node to either the END or the very beginning of the linkedList
+	 */
 	addNode(value, key) {
 		let node = new Node(value, key);
 		if(!this._start) {
@@ -62,6 +115,12 @@ class linkedList {
 		return this._tail;
 	}
 
+	/*
+	 * @name: insertNode
+	 * @input: character, the key where the new node should be inserted, and a unique key
+	 * @output: the node we just inserted
+	 * @purpose: inserts a new node at a specific position
+	 */
 	insertNode(value, currentKey, generatedKey) {
 		// this inserts an item into a specific index
 		let node = new Node(value, generatedKey);
@@ -91,27 +150,27 @@ class linkedList {
 			node.next = currentNode.next;
 			node.previous = currentNode;
 			currentNode.next = node;
-			// should work....
 		}
 
-
-		// after insert, you'd return the List
-		return currentNode; // o
+		return currentNode;
 	}
 
+	/*
+	 * @name: removeNode
+	 * @input: id of the node we want to remove
+	 * @output: the next node
+	 * @purpose: removes the node at the passed in id
+	 */
 	removeNode(id) {
 		let currentNode = {
 			node: this._tail,
 			counter: 0,
 		};
 
-		/*
-			we are searching from the beginning to find which node we are to remove
-		*/
+		// we are searching from the beginning to find which node we are to remove
 		while(currentNode.node.value.id !== id) {
 			if(this._length < currentNode.counter) {
 				return 'id was not found';
-				// throw; // we can throw error as of now -- clean up for later
 			}
 			currentNode.node = currentNode.node.previous;
 		}
@@ -121,9 +180,7 @@ class linkedList {
 
 		if(this._start.value.id === id) {
 			if(this._length > 1) {
-				/* 	
-					we are first by removing the first character when there are more than one character
-				*/
+				// we are first by removing the first character when there are more than one character
 				this._allValues = this._allValues.slice(1, this._length);
 
 				// removing the first Node
@@ -134,9 +191,7 @@ class linkedList {
 				return this._start;
 
 			} else {
-				/*
-					we are removing the first character, and there is ONLY one character
-				*/
+				// we are removing the first character, and there is ONLY one character
 				this._allValues = '';
 
 				this._start = null;
@@ -146,7 +201,7 @@ class linkedList {
 			}
 
 		} else if (this._tail.value.id === id) {
-			// edit _allValues first by removing the last character
+			// we are removing the last node -- or the ._tail
 			this._allValues = this._allValues.slice(0, this._length - 1);
 
 			// removing the last value
@@ -157,7 +212,7 @@ class linkedList {
 			return this._tail;
 			
 		} else {
-			// currentNode is correct now
+			// we are removing the node at the passed in `id`
 			currentNode.node.previous.next = currentNode.node.next;
 			currentNode.node.next = currentNode.node.previous;
 
@@ -169,28 +224,39 @@ class linkedList {
 		}
 	}
 
-	returnAll() {
-		// this will recurse through and return all the values
-		return this.returnAllRightLeft(this._start);
-	}
-
+	/*
+	 * @name: getNode
+	 * @input: id of the node we want to get, the current node we are checking
+	 * @output: node at the id passed in
+	 * @purpose: locate and return the node at the passed in id
+	 */
 	getNode(id, node = this._start) {
 		if(node.value.id === id) {
 			console.log('node found: ', node);
 			return node;
 		}
-
 		return this.getNode(id, node.next);
 	}
 
+	/*
+	 * @name: resetLeftRightFocus
+	 * @input: n/a
+	 * @output: n/a
+	 * @purpose: resets the instance's `._left`, `._right`, and `._focus` properties
+	 */
 	resetLeftRightFocus() {
-		// reset left, right, and focus position
 		this._left = '';
 		this._right = '';
 		this._focus = '';
 	}
 
-
+	/*
+	 * @name: returnAllRightLeft
+	 * @input: the current id 
+	 * @output: all the `.values` for all the nodes
+	 * @purpose: to call the `returnAllFnRightLeft` while also calling the
+	 *   `.resetLeftRightFocus` to reset the focus.
+	 */
 	returnAllRightLeft(id) {
 		// reset left/rightposition
 		this.resetLeftRightFocus();
@@ -207,6 +273,23 @@ class linkedList {
 		return this.returnAllFnRightLeft(this._start, id);
 	}
 
+	/*
+	 * @name: returnAllFnRightLeft
+	 * @input: current node, id of node we are looking for, flag to check if 
+	 *   we have passed the node that contains the id, accumulator string to hold
+	 *   all characters encountered while recursing
+	 * @output: a string of all the values in the linkedList (i.e. `hello world`)
+	 * @purpose: Used to update the `._left`, `._right`, `._focus` property of the
+	 *   instance. It does this by:
+	 *     1. Check if the node is at the `._start` position with `=== null`, and
+	 *        if so, then return that first character
+	 *     2. Check if the node value has passed the id yet. If not, then it'll 
+	 *        concat the current node's value to the `._left` property
+	 *     3. Check if the node value is at the id yet. If so, turn the flag value
+	 *        to true and set the `._focus` property
+	 *     4. Check if the flag is `true`. If so, then the node at `id` has been
+	 *        found, and all remaining nodes will belong to the `._right` property
+	 */
 	returnAllFnRightLeft(node, id, flag = false, allNodeValues = '') {
 		// debugger;
 		let localAllNodeValues = allNodeValues;
@@ -236,13 +319,10 @@ class linkedList {
 			this._right = this._right.concat(node.value.text);
 		}
 
-		// debugger;
-
 		if(node.next) {
 			return this.returnAllFnRightLeft(node.next, id, flag, localAllNodeValues); // recurse to next property
 		} else {
 			// we are at the end -- so concat current node value and return
-			console.log('finishing recursion: ', localAllNodeValues);
 			return localAllNodeValues;
 		}
 	}

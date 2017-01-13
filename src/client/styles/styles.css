@@ -42,6 +42,7 @@
 }
 
 /******* APP ELEMEMNT *********/
+
 .background {
   position: fixed;
   width: 100%;
@@ -64,8 +65,6 @@
   display: flex;
   justify-content: center;
   align-content: center;
-  /*flex-direction: column;*/
-
   /* easy-fix right now in regards to getting the padding */
   padding-top: 100px;
 
@@ -98,20 +97,15 @@
   background-color: #ee0979 !important;
 }
 
-.history-font {
-  color: #FBD3E9;
-}
 
 .user-tag { 
   color: white;
 }
 
-.instructions-box {
-  background-color: white;
-  padding-right: 200px;
-  padding-left: 200px;
+/******* HISTORY ELEMENT ******/
 
+.history-font {
+  color: #FBD3E9;
 }
-
 
 
