@@ -1,8 +1,8 @@
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 import axios from 'axios';
 import _ from 'lodash';
 import uuidV1 from 'uuid/v1';
-import React, { Component } from 'react';
-import { render } from 'react-dom';
 
 import Console from './Console';
 import linkedList from '../linkedList'; // imports a new linkedList data structure

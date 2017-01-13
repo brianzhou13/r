@@ -11,11 +11,8 @@ import Console from '../../src/client/components/Console';
 import History from '../../src/client/components/History';
 import CurrentLine from '../../src/client/components/CurrentLine';
 
-describe('Unit React Tests for <Console/>', function() {
-	// it should have... XXXX
 
-	// mount is 'real' rendering. use if state
-	// shallow is non-state
+describe('Unit React Tests for <Console/>', function() {
 	describe('it should have sub-components being rendered onto the page', function() {
 		it('should have a History component', function() {
 			const wrapper = shallow(<Console/>);

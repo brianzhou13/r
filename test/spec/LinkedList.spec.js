@@ -42,7 +42,7 @@ describe('Tests regarding our linkedList datastructure', function() {
 			testedNode.addNode('h');
 			testedNode.addNode('i');
 
-			let allNodeValues = testedNode.returnAll();
+			let allNodeValues = testedNode.returnAllRightLeft();
 
 			expect(allNodeValues).to.be.a('string');
 			expect(allNodeValues[allNodeValues.length - 1]).to.equal('i');
@@ -58,7 +58,7 @@ describe('Tests regarding our linkedList datastructure', function() {
 			testedNode.addNode('k');
 			testedNode.addNode('l');
 
-			let allNodeValues = testedNode.returnAll();
+			let allNodeValues = testedNode.returnAllRightLeft();
 
 			expect(allNodeValues).to.be.a('string');
 			expect(allNodeValues[0]).to.equal('j');
@@ -79,7 +79,7 @@ describe('Tests regarding our linkedList datastructure', function() {
 			testedNode.addNode('c', 3);
 			testedNode.removeNode(1);
 
-			let allNodeValues = testedNode.returnAll();
+			let allNodeValues = testedNode.returnAllRightLeft();
 
 			expect(allNodeValues.length).to.equal(2);
 
@@ -95,7 +95,7 @@ describe('Tests regarding our linkedList datastructure', function() {
 			testedNode.addNode('f', 3);
 			testedNode.removeNode(2);
 
-			let allNodeValues = testedNode.returnAll();
+			let allNodeValues = testedNode.returnAllRightLeft();
 
 			expect(allNodeValues[0]).to.equal('d');
 			expect(allNodeValues[1]).to.equal('f');
